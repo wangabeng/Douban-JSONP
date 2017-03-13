@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+<style>
+#container{
+	width:600px;
+	margin:20px auto;
+	text-align:center;
+}
+#q {
+	width: 300px; 
+	height: 30px; 
+	padding: 5px; 
+	border:1px solid #999900; 
+	font-size: 16px;
+	margin-right:20px;
+}
+dl {
+	border-bottom: 1px 
+	dotted #000;
+}
+dt {
+	font-weight: bold;
+	text-align:center;
+}
+
+</style>
+<script>
+function fn1(data) {
+
+	var oMsg = document.getElementById('msg');
+	var oList = document.getElementById('list');
+	
+	console.log(data);
+	
+	oMsg.innerHTML="一共搜索到"+data.count+"条结果";
+	
+	var html = '';
+	for (var i=0; i<data.books.length; i++) {
+		
+		html += '<dl><dt>'+ data.books[i].title +'</dt><dd><img src="'+data.books[i].images.medium +'" /></dd></dl>';
+		
+	}
+	
+	oList.innerHTML = html;
+	
+}
+</script>
+<script> 
+	//src="https://api.douban.com/v2/book/search?q=java&callback=fn1"
+</script>
+<script>
+	window.onload = function() {
+	
+		var oQ = document.getElementById('q');
+		var oBtn = document.getElementById('btn');
+		var oMsg = document.getElementById('msg');
+		var oList = document.getElementById('list');
+	
+		oBtn.onclick = function() {//每点击一次 就触发一次
+			if ( oQ.value != '' ) {
+				var oScript = document.createElement('script');
+				//https://api.douban.com/v2/book/search?q=java
+				oScript.src = 'https://api.douban.com/v2/book/search?q='+oQ.value+'&callback=fn1';
+				document.body.appendChild(oScript);
+			}
+		};
+	};
+</script>
+</head>
+<body>
+	<div id="container">
+		<span>请输入豆瓣搜索的关键词</span>
+		<input type="text" id="q" /><input type="button" id="btn" value="搜索" />
+		<p id="msg"></p>
+		<hr />
+		<div id="list"></div>
+	</div>
+</body>
+</html>
